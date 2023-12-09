@@ -3,7 +3,7 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
-
+const backBtn = document.getElementById('back-quote')
 
 let apiQuotes = [];
 let quoteHistory = [];
@@ -28,7 +28,27 @@ if(quoteText.textContent > 120){
 }
 quoteText.textContent = quote.text;
 
+// add the current quote to history
+quoteHistory.push({ text: quote.text, author: authorText.textContent });
 
+}
+
+/******************************************************************************************************/ 
+
+
+// go back to the previous quote
+
+function goBack() {
+    // remove last quote from history
+    const previousQuote = quoteHistory.pop();
+
+    if (previousQuote) {
+        quoteText.textContent = previousQuote.text;
+        authorText.textContent = previousQuote.author;
+    } else {
+        // If there is no previous quote, fetch a new one
+        newQuote();
+    }
 }
 
 /******************************************************************************************************/ 
@@ -55,9 +75,9 @@ function tweetQuote() {
 
 /******************************************************************************************************/ 
  //event listeners
- newQuoteBtn.addEventListener('click', newQuote )
- twitterBtn.addEventListener('click', tweetQuote)
-
+newQuoteBtn.addEventListener('click', newQuote )
+twitterBtn.addEventListener('click', tweetQuote)
+backBtn.addEventListener('click', goBack);
 /******************************************************************************************************/
 // on Load
 getQuotes();
